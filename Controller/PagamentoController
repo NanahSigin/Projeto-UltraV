@@ -1,0 +1,23 @@
+package br.com.ultravexpotech.controller;
+
+import br.com.ultravexpotech.service.PagamentoService; // Verifique se o nome é Servico ou Service
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/pagamento")
+@CrossOrigin(origins = "*") // Permite que o front e o java conversem
+public class PagamentoController {
+
+    @Autowired
+    //metodo do folgado
+    private PagamentoService pagamentoService;
+
+    @GetMapping("/verificar-cartao/{nomeUsuario}")
+    public ResponseEntity<Boolean> verificar(@PathVariable String nomeUsuario) {
+        // O controller recebe o nome do usuário da URL e pergunta ao service
+        boolean temCartao = pagamentoService.usuarioTemCartaoValido(nomeUsuario);
+        return ResponseEntity.ok(temCartao);
+    }
+}
